@@ -1,4 +1,4 @@
-﻿#target illustrator
+#target illustrator
 
 var min_layer = 1;
 var max_layer = 36;
@@ -86,17 +86,16 @@ next_btn.onClick = function()
     anim_slider.notify("onChange");
 }
 
-
-  
 box.show()
 
 function hideAllLayers ()
 {
     // hide all
-    for (var i = min_layer; i <= 36; i++)
+    for (var i = min_layer; i <= max_layer; i++)
     {
         layer = app.activeDocument.layers.getByName("Layer " + i);
         layer.visible = false;
+        layer.opacity = 100.0;
     }
 }
 
@@ -107,6 +106,7 @@ function playAnimation ()
     {
         showFrame(i);
     }
+    hideAllLayers ();
     // restore 1st
     layer = app.activeDocument.layers.getByName("Layer " + 1);
     layer.visible = true;
@@ -120,9 +120,9 @@ function showFrame (frame)
     var prev_i = i - 1;
     var prev_prev_i = i - 2;
     var prev_prev_prev_i = i - 3;
-    if (i == min_layer)
+    if (i == 1)
     {
-        prev_i = 36;
+        prev_i = max_layer;
         prev_prev_i = max_layer - 1;
         prev_prev_prev_i = max_layer - 2;
     }        
@@ -135,9 +135,6 @@ function showFrame (frame)
     {
         prev_prev_prev_i = max_layer;
     }
-    
-    // current_frame_text.text = "" + i;
-    anim_slider.value = i;
 
     prev_prev_prev_layer = app.activeDocument.layers.getByName("Layer " + prev_prev_prev_i);
     prev_prev_layer = app.activeDocument.layers.getByName("Layer " + prev_prev_i);
@@ -163,8 +160,3 @@ function showFrame (frame)
     layer.opacity = 100.0;
     app.redraw ();
 }
-
-
-
-
-
