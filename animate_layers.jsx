@@ -1,15 +1,13 @@
 #target illustrator
 
 var min_layer = 1;
-var max_layer = 36;
-var loops = 1;
+var max_layer = app.activeDocument.layers.length;
 
-
-var box = new Window('dialog', "Some title");  
+var box = new Window('dialog', "Layer animator");  
   
 box.panel = box.add('panel', undefined, "Layer Settings");  
 box.panel_text1 = box.panel.add('edittext', undefined, "1");  
-box.panel_text2 = box.panel.add('edittext', undefined, "36");
+box.panel_text2 = box.panel.add('edittext', undefined, max_layer);
 box.panel_box = box.panel.add('checkbox', undefined, "trace");
 box.panel_box.minimumSize.width = 20;
 box.panel_box.minimumSize.height = 20;
@@ -33,9 +31,6 @@ function updateSliderRange ()
 	anim_slider.notify("onChange"); // call the onchange event handler
 }
 
-
-
-  
 
 var animGroup = box.add("group");
 var current_frame_text = animGroup.add('edittext', undefined, "1");
