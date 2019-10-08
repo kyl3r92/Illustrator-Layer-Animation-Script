@@ -6,11 +6,13 @@ var max_layer = app.activeDocument.layers.length;
 var box = new Window('dialog', "Layer animator");  
   
 box.panel = box.add('panel', undefined, "Layer Settings");  
+box.panel_text0 = box.panel.add('edittext', undefined, "" + app.activeDocument.layers[0].name.split(" ")[0]);  
 box.panel_text1 = box.panel.add('edittext', undefined, "1");  
 box.panel_text2 = box.panel.add('edittext', undefined, max_layer);
 box.panel_box = box.panel.add('checkbox', undefined, "trace");
 box.panel_box.minimumSize.width = 20;
 box.panel_box.minimumSize.height = 20;
+box.panel_text0.minimumSize.width = 60;
 box.panel_text1.minimumSize.width = 60;
 box.panel_text2.minimumSize.width = 60;
 
@@ -68,6 +70,8 @@ prev_btn.onClick = function()
     current_frame_text.text = frame;
     anim_slider.value = frame;
     anim_slider.notify("onChange");
+    
+    alert(box.panel_text0.text);
 }
 next_btn.onClick = function()
 {
@@ -88,7 +92,7 @@ function hideAllLayers ()
     // hide all
     for (var i = min_layer; i <= max_layer; i++)
     {
-        layer = app.activeDocument.layers.getByName("Layer " + i);
+        layer = app.activeDocument.layers.getByName(box.panel_text0.text + " " + i);
         layer.visible = false;
         layer.opacity = 100.0;
     }
@@ -103,7 +107,7 @@ function playAnimation ()
     }
     hideAllLayers ();
     // restore 1st
-    layer = app.activeDocument.layers.getByName("Layer " + 1);
+    layer = app.activeDocument.layers.getByName(box.panel_text0.text + " " + 1);
     layer.visible = true;
     layer.opacity = 100.0;
     app.redraw ();
@@ -131,10 +135,10 @@ function showFrame (frame)
         prev_prev_prev_i = max_layer;
     }
 
-    prev_prev_prev_layer = app.activeDocument.layers.getByName("Layer " + prev_prev_prev_i);
-    prev_prev_layer = app.activeDocument.layers.getByName("Layer " + prev_prev_i);
-    prev_layer = app.activeDocument.layers.getByName("Layer " + prev_i);
-    layer = app.activeDocument.layers.getByName("Layer " + i);
+    prev_prev_prev_layer = app.activeDocument.layers.getByName(box.panel_text0.text + " "  + prev_prev_prev_i);
+    prev_prev_layer = app.activeDocument.layers.getByName(box.panel_text0.text + " " + prev_prev_i);
+    prev_layer = app.activeDocument.layers.getByName(box.panel_text0.text + " "  + prev_i);
+    layer = app.activeDocument.layers.getByName(box.panel_text0.text + " "  + i);
     
     
     if(box.panel_box.value == true)
